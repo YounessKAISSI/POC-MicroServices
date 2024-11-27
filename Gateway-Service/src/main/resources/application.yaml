@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: beneficiare-route
+          uri: lb://beneficiare-service
+          predicates:
+            - Path=/beneficiares/**
