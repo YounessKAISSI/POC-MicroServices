@@ -1,0 +1,73 @@
+<div class="p-3">
+  <div class="card">
+    <div class="card-header">Bénéficiares</div>
+    <div class="card-body">
+      <h2>Bénéficiares</h2>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Bénéficiare ID</th> <th>Prènom</th> <th>Nom</th> <th>Type</th> <th>RIB</th><th>Opérations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let b of beneficiares">
+          <td>{{b.id}}</td>
+          <td>{{b.firstName}}</td>
+          <td>{{b.lastName}}</td>
+          <td>{{b.type}}</td>
+          <td>{{b.rib}}</td>
+
+          <td>
+            <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#formulaireModal" (click)="updateBeneficiaire(b)">Editer</button>
+
+            <div class="modal fade" id="formulaireModal" tabindex="-1" aria-labelledby="formulaireModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="formulaireModalLabel">Modifier Bénéficiaire </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="mb-3"> <!--  ID  -->
+                        <label for="id" class="form-label">ID</label>
+                        <input type="text" class="form-control readonly-field"  id="id" value={{b.id}} readonly disabled/>
+                      </div>
+                      <div class="mb-3"> <!--  Prènom  -->
+                        <label for="firstName" class="form-label">Prènom</label>
+                        <input type="text" class="form-control" id="firstName" value={{b.firstName}} />
+                      </div>
+
+                      <div class="mb-3"> <!--  Nom  -->
+                        <label for="lastName" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="lastName" value={{b.lastName}} />
+                      </div>
+                      <div class="mb-3"> <!--  Type  -->
+                        <label for="type" class="form-label">Type</label>
+                        <select class="form-control readonly-field" id="type" value={{b.type}}>
+                          <option value="MORALE">MORALE</option>
+                          <option value="PHYSIQUE">PHYSIQUE</option>
+                        </select>
+                      </div>
+                      <div class="mb-3"> <!--  RIB  -->
+                        <label for="rib" class="form-label">RIB</label>
+                        <input type="text" class="form-control" id="rib" value={{b.rib}}  />
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" (click)="updateBeneficiaire(b)">Modifier</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-danger" (click)="deleteBeneficiaireById(b.id)">Supprimer</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

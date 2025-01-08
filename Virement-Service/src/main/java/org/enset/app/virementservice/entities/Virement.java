@@ -1,5 +1,6 @@
 package org.enset.app.virementservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.enset.app.virementservice.enums.VirementType;
@@ -18,6 +19,7 @@ public class Virement {
     private String sourceRIB;
     private Double amount;
     private String description;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date virementDate;
     private VirementType type;
 

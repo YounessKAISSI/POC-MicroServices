@@ -1,0 +1,29 @@
+<div class="p-3">
+  <div class="card">
+    <div class="card-header">Virements</div>
+    <div class="card-body">
+      <h2>Virements</h2>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Virement ID</th><th>Bénéficiaire ID</th> <th>Source RIB</th> <th>Montant</th> <th>Description</th> <th>Date Virement</th><th>Type Virement</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let v of virements">
+          <td>{{v.id}}</td>
+          <td>{{v.beneficiaireId}}</td>
+          <td>{{v.sourceRIB}}</td>
+          <td>{{v.amount}}</td>
+          <td>{{v.description}}</td>
+          <td>{{v.virementDate}}</td>
+          <td>{{v.type}}</td>
+          <td>
+            <button class="btn btn-success" ></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

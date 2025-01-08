@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/virements")
+@CrossOrigin("*")
 public class VirementRestController {
     @Autowired
     private VirementService virementService;

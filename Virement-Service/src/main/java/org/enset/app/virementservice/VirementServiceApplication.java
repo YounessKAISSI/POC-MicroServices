@@ -31,18 +31,36 @@ public class VirementServiceApplication {
         return args -> {
             Collection<Beneficiare> beneficiares = beneficiareRestClient.getAllBeneficiaires().getContent();
 
-            beneficiares.forEach(beneficiare -> {
-                Virement virement = Virement.builder()
-                        .beneficiaireId(beneficiare.getId())
-                        .sourceRIB(beneficiare.getRIB())
-                        .amount(7000.0)
-                        .description("Virement N°" + cpt)
-                        .virementDate(new Date())
-                        .type(VirementType.INSTANTANE)
-                        .build();
 
-                virementService.createVirement(virement);
-                cpt=cpt+1;
+            beneficiares.forEach(beneficiare -> {
+                cpt=1;
+                for (int i = 1; i <= 3; i++) {
+                    Virement virement = Virement.builder()
+                            .beneficiaireId(beneficiare.getId())
+                            .sourceRIB(beneficiare.getRIB())
+                            .amount(7000.0)
+                            .description("Virement N°" + cpt)
+                            .virementDate(new Date())
+                            .type(VirementType.INSTANTANE)
+                            .build();
+
+                    virementService.createVirement(virement);
+                    cpt=cpt+1;
+                }
+
+                for (int i = 1; i <= 3; i++) {
+                    Virement virement = Virement.builder()
+                            .beneficiaireId(beneficiare.getId())
+                            .sourceRIB(beneficiare.getRIB())
+                            .amount(8000.0)
+                            .description("Virement N°" + cpt)
+                            .virementDate(new Date())
+                            .type(VirementType.NORMALE)
+                            .build();
+
+                    virementService.createVirement(virement);
+                    cpt=cpt+1;
+                }
             });
         };
     }
