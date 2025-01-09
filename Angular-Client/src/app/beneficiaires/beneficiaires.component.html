@@ -1,73 +1,109 @@
 <div class="p-3">
-  <div class="card">
-    <div class="card-header">Bénéficiares</div>
-    <div class="card-body">
-      <h2>Bénéficiares</h2>
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Bénéficiare ID</th> <th>Prènom</th> <th>Nom</th> <th>Type</th> <th>RIB</th><th>Opérations</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let b of beneficiares">
-          <td>{{b.id}}</td>
-          <td>{{b.firstName}}</td>
-          <td>{{b.lastName}}</td>
-          <td>{{b.type}}</td>
-          <td>{{b.rib}}</td>
+  <ng-container *ngIf="beneficiaires | async; else failureOrLoading">
 
-          <td>
-            <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#formulaireModal" (click)="updateBeneficiaire(b)">Editer</button>
+    <div class="card">
+      <div class="card-header">Bénéficiares</div>
+      <div class="card-body">
+        <div class="message mb-3">
+          <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#formulaireModal" (click)="handleCreateBeneficiaire()">
+            <i class="bi bi-person-fill-add"> ajouter</i>
+          </button>
+        </div>
 
-            <div class="modal fade" id="formulaireModal" tabindex="-1" aria-labelledby="formulaireModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="formulaireModalLabel">Modifier Bénéficiaire </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form>
-                      <div class="mb-3"> <!--  ID  -->
-                        <label for="id" class="form-label">ID</label>
-                        <input type="text" class="form-control readonly-field"  id="id" value={{b.id}} readonly disabled/>
-                      </div>
-                      <div class="mb-3"> <!--  Prènom  -->
-                        <label for="firstName" class="form-label">Prènom</label>
-                        <input type="text" class="form-control" id="firstName" value={{b.firstName}} />
-                      </div>
+        <form [formGroup]="searchFormGroup" (ngSubmit)="handelSearchBeneficiaires()">
+          <div class="input-group mb-4">
+            <label class="input-group-text">Recherche : </label>
+            <input type="text" formControlName="keyword" class="form-control">
+            <button class="btn btn-info">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
 
-                      <div class="mb-3"> <!--  Nom  -->
-                        <label for="lastName" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="lastName" value={{b.lastName}} />
-                      </div>
-                      <div class="mb-3"> <!--  Type  -->
-                        <label for="type" class="form-label">Type</label>
-                        <select class="form-control readonly-field" id="type" value={{b.type}}>
-                          <option value="MORALE">MORALE</option>
-                          <option value="PHYSIQUE">PHYSIQUE</option>
-                        </select>
-                      </div>
-                      <div class="mb-3"> <!--  RIB  -->
-                        <label for="rib" class="form-label">RIB</label>
-                        <input type="text" class="form-control" id="rib" value={{b.rib}}  />
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary" (click)="updateBeneficiaire(b)">Modifier</button>
-                  </div>
-                </div>
-              </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Bénéficiare ID</th> <th>Prènom</th> <th>Nom</th> <th>Type</th> <th>RIB</th><th>Opérations</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let b of beneficiaires | async">
+            <td>{{b.id}}</td>
+            <td>{{b.firstName}}</td>
+            <td>{{b.lastName}}</td>
+            <td>{{b.type}}</td>
+            <td>{{b.rib}}</td>
+
+            <td>
+              <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#formulaireModal" (click)="editBeneficiaire(b.id)">Editer</button>
+
+              <button class="btn btn-danger" (click)="handleDeleteBeneficiaire(b.id)">Supprimer</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </ng-container>
+  <ng-template #failureOrLoading class="text-danger">
+
+    <ng-container *ngIf="errorMessage; else loading">
+      <div class="error-container text-danger">
+        <div class="message">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      Loading ...
+    </ng-template>
+  </ng-template>
+
+  <div class="modal fade" id="formulaireModal" tabindex="-1" aria-labelledby="formulaireModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="formulaireModalLabel">Modifier Bénéficiaire</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Lier le formulaire à formulaireModal -->
+          <form [formGroup]="formulaireModal">
+            <div class="mb-3">
+              <label for="id" class="form-label">ID</label>
+              <input type="text" class="form-control readonly-field " id="id" formControlName="id" />
             </div>
-
-            <button class="btn btn-danger" (click)="deleteBeneficiaireById(b.id)">Supprimer</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            <div class="mb-3">
+              <label for="firstName" class="form-label">Prènom</label>
+              <input type="text" class="form-control" id="firstName" formControlName="firstName" />
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="lastName" formControlName="lastName" />
+            </div>
+            <div class="mb-3">
+              <label for="type" class="form-label">Type</label>
+              <select class="form-control" id="type" formControlName="type">
+                <option value="MORALE">MORALE</option>
+                <option value="PHYSIQUE">PHYSIQUE</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="rib" class="form-label">RIB</label>
+              <input type="text" class="form-control" id="rib" formControlName="rib" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-primary" (click)="handleUpdateBeneficiaire(selectedBeneficiary)">Modifier</button>
+        </div>
+      </div>
     </div>
   </div>
+
+
+
 </div>

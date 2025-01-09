@@ -1,8 +1,10 @@
 package org.enset.app.virementservice;
 
+import org.enset.app.virementservice.dtos.VirementDTO;
 import org.enset.app.virementservice.entities.Virement;
 import org.enset.app.virementservice.enums.VirementType;
 import org.enset.app.virementservice.feign.BeneficiareRestClient;
+import org.enset.app.virementservice.mappers.VirementMapperImp;
 import org.enset.app.virementservice.model.Beneficiare;
 import org.enset.app.virementservice.services.VirementService;
 import org.springframework.boot.CommandLineRunner;
@@ -26,7 +28,8 @@ public class VirementServiceApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(VirementService virementService,
-                                        BeneficiareRestClient beneficiareRestClient){
+                                        BeneficiareRestClient beneficiareRestClient,
+                                        VirementMapperImp dtoMapper){
 
         return args -> {
             Collection<Beneficiare> beneficiares = beneficiareRestClient.getAllBeneficiaires().getContent();
@@ -44,7 +47,9 @@ public class VirementServiceApplication {
                             .type(VirementType.INSTANTANE)
                             .build();
 
-                    virementService.createVirement(virement);
+                    VirementDTO virementDTO = dtoMapper.fromVirement(virement);
+
+                    virementService.createVirement(virementDTO);
                     cpt=cpt+1;
                 }
 
@@ -58,7 +63,9 @@ public class VirementServiceApplication {
                             .type(VirementType.NORMALE)
                             .build();
 
-                    virementService.createVirement(virement);
+                    VirementDTO virementDTO = dtoMapper.fromVirement(virement);
+
+                    virementService.createVirement(virementDTO);
                     cpt=cpt+1;
                 }
             });

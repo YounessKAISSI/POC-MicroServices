@@ -1,17 +1,13 @@
-package org.enset.app.virementservice.entities;
+package org.enset.app.virementservice.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import org.enset.app.virementservice.enums.VirementType;
 
 import java.util.Date;
 
-@Entity
-@NoArgsConstructor @AllArgsConstructor
-@Getter @Setter @ToString @Builder
-public class Virement {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+public class VirementDTO {
     private Long Id;
     private Long beneficiaireId;
     private String sourceRIB;
@@ -20,5 +16,4 @@ public class Virement {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date virementDate;
     private VirementType type;
-
 }

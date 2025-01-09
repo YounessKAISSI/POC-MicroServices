@@ -9,6 +9,7 @@ import { VirementsComponent } from './virements/virements.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import { EditBeneficiaireComponent } from './edit-beneficiaire/edit-beneficiaire.component';
 import { BeneficiairesComponent } from './beneficiaires/beneficiaires.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BeneficiairesComponent } from './beneficiaires/beneficiaires.component'
     BrowserModule,
     AppRoutingModule,
     RouterOutlet,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

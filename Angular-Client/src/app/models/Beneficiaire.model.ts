@@ -4,5 +4,4 @@ export interface Beneficiaire {
   lastName: string;
   type:string;
   rib: string;
-
 }

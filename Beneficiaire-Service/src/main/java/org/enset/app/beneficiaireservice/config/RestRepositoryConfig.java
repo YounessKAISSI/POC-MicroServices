@@ -14,11 +14,10 @@ public class RestRepositoryConfig implements RepositoryRestConfigurer  {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
         cors.addMapping("/**")
-                .allowedOrigins("http://localhost:4200","http://localhost:3000")
+                .allowedOrigins("http://localhost:4200", "http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
-
 
         RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
         config.exposeIdsFor(Beneficiaire.class);

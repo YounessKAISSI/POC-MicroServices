@@ -1,31 +1,40 @@
 package org.enset.app.beneficiaireservice.web;
 
-import org.enset.app.beneficiaireservice.entities.Beneficiaire;
-import org.enset.app.beneficiaireservice.services.BeneficiaireService;
+import org.enset.app.beneficiaireservice.dtos.BeneficiaireDTO;
+import org.enset.app.beneficiaireservice.services.BeneficiaireServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/beneficiaires")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BeneficiareRestController {
     @Autowired
-    private BeneficiaireService beneficiaireService;
+    private BeneficiaireServiceImp beneficiaireService;
 
     @GetMapping
-    public List<Beneficiaire> getAllBeneficiaries() {
+    public List<BeneficiaireDTO> getAllBeneficiaries() {
         return beneficiaireService.getAllBeneficiaries();
     }
 
     @GetMapping("/{id}")
-    public Beneficiaire getBeneficiary(@PathVariable Long id) {
+    public BeneficiaireDTO getBeneficiary(@PathVariable Long id) {
         return beneficiaireService.getBeneficiaryById(id);
     }
 
-    @PostMapping
+    @GetMapping("/search")
+    public List<BeneficiaireDTO> searchBeneficiaries(@RequestParam(name = "keyword",defaultValue = "") String keyword) {
+        return beneficiaireService.searchBeneficiaries("%" + keyword + "%");
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBeneficiary(@PathVariable Long id) {
+        beneficiaireService.deleteBeneficiaryById(id);
+    }
+
+    /*@PostMapping
     public Beneficiaire createBeneficiary(@RequestBody Beneficiaire beneficiaire) {
         return beneficiaireService.createBeneficiary(beneficiaire);
     }
@@ -35,10 +44,7 @@ public class BeneficiareRestController {
         beneficiaire.setId(id); // S'assurer que l'ID correspond
         Beneficiaire updatedBeneficiary = beneficiaireService.updateBeneficiary(beneficiaire);
         return ResponseEntity.ok(updatedBeneficiary);
-    }
+    }*/
 
-    @DeleteMapping("/{id}")
-    public void deleteBeneficiary(@PathVariable Long id) {
-        beneficiaireService.deleteBeneficiary(id);
-    }
+
 }

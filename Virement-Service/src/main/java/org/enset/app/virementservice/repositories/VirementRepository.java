@@ -9,4 +9,5 @@ import java.util.List;
 @RepositoryRestResource
 public interface VirementRepository extends JpaRepository<Virement, Long> {
     List<Virement> findByBeneficiaireId(Long beneficiaireId);
+
 }
