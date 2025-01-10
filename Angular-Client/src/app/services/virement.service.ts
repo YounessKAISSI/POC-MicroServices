@@ -9,7 +9,8 @@ import {Virement} from "../models/Virement.model";
 
 export class VirementService {
   private baseUrl = 'http://localhost:8888/virement-service/virements';
-  virements! : Array<Virement>;
+  private baseUrlService = 'http://localhost:8082/virements';
+  virements! : Observable<Array<Virement>>;
 
   constructor(private http:HttpClient) { }
 
@@ -32,11 +33,10 @@ export class VirementService {
 
   deleteVirementById(id:number) {
     console.log(`delete id=${id}`);
-    this.http.delete(`${this.baseUrl}/${id}`).subscribe({
-      next: () => {
+    this.http.delete(`${this.baseUrlService}/${id}`).subscribe({
+      next: ()  => {
         console.log(`Virement avec id=${id} supprimé avec succès`);
-        // Mettez à jour la liste des virements
-        this.virements = this.virements.filter(v => v.id !== id);
+        this.loadVirements();
       },
       error: (err) => {
         console.error(`Erreur lors de la suppression du virement avec id=${id}:`, err);

@@ -7,7 +7,6 @@ import { TemplateComponent } from './template/template.component';
 import {RouterOutlet} from "@angular/router";
 import { VirementsComponent } from './virements/virements.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
-import { EditBeneficiaireComponent } from './edit-beneficiaire/edit-beneficiaire.component';
 import { BeneficiairesComponent } from './beneficiaires/beneficiaires.component';
 import {ReactiveFormsModule} from "@angular/forms";
 
@@ -17,7 +16,6 @@ import {ReactiveFormsModule} from "@angular/forms";
     TemplateComponent,
     BeneficiairesComponent,
     VirementsComponent,
-    EditBeneficiaireComponent,
     BeneficiairesComponent
   ],
   imports: [

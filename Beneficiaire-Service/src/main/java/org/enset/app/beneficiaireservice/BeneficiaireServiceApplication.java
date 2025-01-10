@@ -36,6 +36,18 @@ public class BeneficiaireServiceApplication {
                     .RIB("3333 4444 5555 6666")
                     .type(BeneficiareType.MORALE)
                     .build());
+            beneficiaireRepository.save(Beneficiaire.builder()
+                    .firstName("TEST")
+                    .lastName("1111")
+                    .RIB("1111 1111 1111 1111")
+                    .type(BeneficiareType.MORALE)
+                    .build());
+            beneficiaireRepository.save(Beneficiaire.builder()
+                    .firstName("TEST")
+                    .lastName("2222")
+                    .RIB("2222 2222 2222 2222")
+                    .type(BeneficiareType.MORALE)
+                    .build());
             beneficiaireRepository.findAll().forEach(c->{
                 System.out.println("===================");
                 System.out.println(c.getId());

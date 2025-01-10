@@ -55,8 +55,11 @@ export class VirementsComponent implements OnInit{
   }
 
   handleDeleteVirement(id: number) {
-    this.virementService.deleteVirementById(id);
-    this.virementService.loadVirements();
+    const confirmation = window.confirm('Êtes-vous sûr de vouloir supprimer ce virement id = ' + id + " ?");
+    if (confirmation) {
+      this.virementService.deleteVirementById(id);
+      this.virements = this.virementService.loadVirements();
+    }
   }
 
   handelSearchVirements() {

@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/virements")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class VirementRestController {
 
     private final VirementServiceImp virementService;
@@ -21,13 +21,18 @@ public class VirementRestController {
     }
 
     @GetMapping
-    public List<VirementDTO> getAllTransfers() {
+    public List<VirementDTO> getAllVirements() {
         return virementService.getAllVirements();
     }
 
     @GetMapping("/{id}")
     public VirementDTO getVirement(@PathVariable Long id) {
         return virementService.getVirementById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteVirement(@PathVariable Long id) {
+        virementService.deleteVirement(id);
     }
 
     @PostMapping

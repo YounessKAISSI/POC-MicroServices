@@ -6,6 +6,8 @@ import org.enset.app.virementservice.mappers.VirementMapperImp;
 import org.enset.app.virementservice.repositories.VirementRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +34,11 @@ public class VirementServiceImp implements VirementService{
     public VirementDTO getVirementById(Long id) {
         Virement virement = virementRepository.findById(id).orElseThrow(() -> new RuntimeException("Beneficiary not found"));
         return dtoMapper.fromVirement(virement);
+    }
+
+    @Override
+    public void deleteVirement(Long id) {
+        this.virementRepository.deleteById(id);
     }
 
     @Override

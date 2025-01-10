@@ -9,12 +9,13 @@ import {Observable} from "rxjs";
 
 export class BeneficiaireService {
   private baseUrl = 'http://localhost:8888/beneficiaire-service/beneficiaires';
-  beneficiaires! : Array<Beneficiaire>;
+  private baseUrlService = 'http://localhost:8081/beneficiaires';
+  beneficiaires! : Observable<Array<Beneficiaire>>;
 
   constructor(private http:HttpClient) { }
 
    loadBeneficiaires() : Observable<Array<Beneficiaire>> {
-      return this.http.get<Array<Beneficiaire>>(this.baseUrl);
+      return this.beneficiaires = this.http.get<Array<Beneficiaire>>(this.baseUrl);
   }
 
   getBeneficiaireById(id : number):Observable<Beneficiaire>{
@@ -32,11 +33,10 @@ export class BeneficiaireService {
 
   deleteBeneficiaireById(id:number) {
     console.log(`delete id=${id}`);
-    this.http.delete(`${this.baseUrl}/${id}`).subscribe({
-      next: () => {
+    this.http.delete(`${this.baseUrlService}/${id}`).subscribe({
+      next: ()  => {
         console.log(`Bénéficiaire avec id=${id} supprimé avec succès`);
-        // Mettez à jour la liste des bénéficiaires
-        this.beneficiaires = this.beneficiaires.filter(b => b.id !== id);
+        this.loadBeneficiaires();
       },
       error: (err) => {
         console.error(`Erreur lors de la suppression du bénéficiaire avec id=${id}:`, err);

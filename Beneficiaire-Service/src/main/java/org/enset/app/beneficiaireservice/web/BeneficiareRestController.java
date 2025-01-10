@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/beneficiaires")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class BeneficiareRestController {
     @Autowired
     private BeneficiaireServiceImp beneficiaireService;

@@ -58,12 +58,15 @@ export class BeneficiairesComponent implements OnInit{
 
   handleUpdateBeneficiaire(b:Beneficiaire)  {
     this.beneficiaireService.updateBeneficiaireById(b);
-    this.beneficiaireService.loadBeneficiaires();
+    this.beneficiaires = this.beneficiaireService.loadBeneficiaires();
   }
 
   handleDeleteBeneficiaire(id: number) {
-    this.beneficiaireService.deleteBeneficiaireById(id);
-    this.beneficiaireService.loadBeneficiaires();
+    const confirmation = window.confirm('Êtes-vous sûr de vouloir supprimer ce bénéficiaire id = ' + id + " ?");
+    if (confirmation) {
+      this.beneficiaireService.deleteBeneficiaireById(id);
+      this.beneficiaires = this.beneficiaireService.loadBeneficiaires();
+    }
   }
 
   handelSearchBeneficiaires() {
