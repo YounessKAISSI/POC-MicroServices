@@ -9,9 +9,9 @@ public interface BeneficiaireService {
     List<BeneficiaireDTO> getAllBeneficiaries();
     List<BeneficiaireDTO> searchBeneficiaries(String keyword);
     BeneficiaireDTO getBeneficiaryById(Long id);
-    void deleteBeneficiaryById(Long id);
+    void deleteBeneficiary(Long id);
+    Beneficiaire updateBeneficiary(Long id,BeneficiaireDTO beneficiaireDTO);
     //BeneficiaireDTO createBeneficiary(Beneficiaire beneficiaire);
-    //BeneficiaireDTO updateBeneficiary(Beneficiaire beneficiaire);
    // void deleteBeneficiary(Long id);
 
 }

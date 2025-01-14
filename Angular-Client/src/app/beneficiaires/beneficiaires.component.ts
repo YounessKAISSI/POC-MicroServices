@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Beneficiaire} from "../models/Beneficiaire.model";
 import {catchError, Observable, throwError} from "rxjs";
 import {BeneficiaireService} from "../services/beneficiaire.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-beneficiares',
@@ -21,20 +21,9 @@ export class BeneficiairesComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.beneficiaires = this.beneficiaireService.loadBeneficiaires().pipe(
-      catchError(err => {
-        this.errorMessage = err.message;
-        return throwError(err);
-      })
-    );
+    this.beneficiaires = this.beneficiaireService.loadBeneficiaires();
 
-    this.formulaireModal = this.fb.group({
-      id: [{ value: '', disabled: true }],
-      firstName: [''],
-      lastName: [''],
-      type: [''],
-      rib: ['']
-    });
+    this.modelFormInit();
 
     this.searchFormGroup = this.fb.group({
       keyword: this.fb.control("")
@@ -57,8 +46,23 @@ export class BeneficiairesComponent implements OnInit{
   }
 
   handleUpdateBeneficiaire(b:Beneficiaire)  {
-    this.beneficiaireService.updateBeneficiaireById(b);
-    this.beneficiaires = this.beneficiaireService.loadBeneficiaires();
+    const confirmation = window.confirm('Êtes-vous sûr de vouloir modifier ce bénéficiaire id = ' + b.id + " ?");
+    if (confirmation) {
+      let bn: Beneficiaire = this.formulaireModal.value;
+      bn.id = b.id;
+      console.log('Beneficiary to update:', bn);
+      this.beneficiaireService.updateBeneficiaireById(bn).subscribe({
+        next: (updatedBeneficiaire) => {
+          console.log('Updated beneficiary:', updatedBeneficiaire);
+          this.beneficiaires = this.beneficiaireService.loadBeneficiaires();
+        },
+        error: (err) => {
+          console.error('Error updating beneficiary:', err);
+          alert('An error occurred while updating the beneficiary.');
+        }
+      });
+      //this.beneficiaires = this.beneficiaireService.loadBeneficiaires();
+    }
   }
 
   handleDeleteBeneficiaire(id: number) {
@@ -75,12 +79,16 @@ export class BeneficiairesComponent implements OnInit{
   }
 
   handleCreateBeneficiaire() {
+
+  }
+
+  modelFormInit(){
     this.formulaireModal = this.fb.group({
-      id: [{ value: '', disabled: true }],
-      firstName: [''],
-      lastName: [''],
-      type: [''],
-      rib: ['']
+      id: [{ value: '', disabled: true }, Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      type: ['', Validators.required],
+      rib: ['', Validators.required]
     });
   }
 }

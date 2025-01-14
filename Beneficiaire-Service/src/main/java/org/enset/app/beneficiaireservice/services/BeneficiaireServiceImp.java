@@ -5,6 +5,7 @@ import org.enset.app.beneficiaireservice.entities.Beneficiaire;
 import org.enset.app.beneficiaireservice.mappers.BeneficiaireMapperImp;
 import org.enset.app.beneficiaireservice.repositories.BeneficiaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,8 +43,19 @@ public class BeneficiaireServiceImp implements BeneficiaireService{
     }
 
     @Override
-    public void deleteBeneficiaryById(Long id) {
+    public void deleteBeneficiary(Long id) {
         this.beneficiaireRepository.deleteBeneficiaireById(id);
+    }
+
+    @Override
+    public Beneficiaire updateBeneficiary(Long id, BeneficiaireDTO updatedBeneficiary) {
+        return beneficiaireRepository.findById(id).map(existingBeneficiary -> {
+            existingBeneficiary.setFirstName(updatedBeneficiary.getFirstName());
+            existingBeneficiary.setLastName(updatedBeneficiary.getLastName());
+            existingBeneficiary.setRIB(updatedBeneficiary.getRIB());
+            existingBeneficiary.setType(updatedBeneficiary.getType());
+            return beneficiaireRepository.save(existingBeneficiary);
+        }).orElseThrow(() -> new ResourceNotFoundException("Beneficiary not found with id " + id));
     }
 
     /*@Override

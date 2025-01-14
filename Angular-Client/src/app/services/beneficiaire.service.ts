@@ -10,12 +10,12 @@ import {Observable} from "rxjs";
 export class BeneficiaireService {
   private baseUrl = 'http://localhost:8888/beneficiaire-service/beneficiaires';
   private baseUrlService = 'http://localhost:8081/beneficiaires';
-  beneficiaires! : Observable<Array<Beneficiaire>>;
-
+  //beneficiaires! : Observable<Array<Beneficiaire>>;
+  selectedBenificiaire! : Observable<Beneficiaire>;
   constructor(private http:HttpClient) { }
 
    loadBeneficiaires() : Observable<Array<Beneficiaire>> {
-      return this.beneficiaires = this.http.get<Array<Beneficiaire>>(this.baseUrl);
+      return this.http.get<Array<Beneficiaire>>(this.baseUrl);
   }
 
   getBeneficiaireById(id : number):Observable<Beneficiaire>{
@@ -26,9 +26,9 @@ export class BeneficiaireService {
     return this.http.get<Array<Beneficiaire>>(this.baseUrl + `/search?keyword=${keyword}`);
   }
 
-  updateBeneficiaireById(b:Beneficiaire) {
-    console.log(`update id=${b.id}`);
-    this.http.put<Beneficiaire>(this.baseUrl + `/${b.id}`,b);
+  updateBeneficiaireById(b: Beneficiaire): Observable<Beneficiaire> {
+    console.log(`Updating beneficiary with id=${b.id}`);
+    return this.http.put<Beneficiaire>(`${this.baseUrlService}/${b.id}`, b);
   }
 
   deleteBeneficiaireById(id:number) {

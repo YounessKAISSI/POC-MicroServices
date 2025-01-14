@@ -1,8 +1,10 @@
 package org.enset.app.beneficiaireservice.web;
 
 import org.enset.app.beneficiaireservice.dtos.BeneficiaireDTO;
+import org.enset.app.beneficiaireservice.entities.Beneficiaire;
 import org.enset.app.beneficiaireservice.services.BeneficiaireServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,20 +33,19 @@ public class BeneficiareRestController {
 
     @DeleteMapping("/{id}")
     public void deleteBeneficiary(@PathVariable Long id) {
-        beneficiaireService.deleteBeneficiaryById(id);
+        beneficiaireService.deleteBeneficiary(id);
     }
 
     /*@PostMapping
     public Beneficiaire createBeneficiary(@RequestBody Beneficiaire beneficiaire) {
         return beneficiaireService.createBeneficiary(beneficiaire);
-    }
+    }*/
 
     @PutMapping("/{id}")
-    public ResponseEntity<Beneficiaire> updateBeneficiary(@PathVariable Long id, @RequestBody Beneficiaire beneficiaire) {
-        beneficiaire.setId(id); // S'assurer que l'ID correspond
-        Beneficiaire updatedBeneficiary = beneficiaireService.updateBeneficiary(beneficiaire);
-        return ResponseEntity.ok(updatedBeneficiary);
-    }*/
+    public ResponseEntity<Beneficiaire> updateBeneficiary(@PathVariable Long id, @RequestBody BeneficiaireDTO updatedBeneficiary) {
+        Beneficiaire beneficiaire = beneficiaireService.updateBeneficiary(id, updatedBeneficiary);
+        return ResponseEntity.ok(beneficiaire);
+    }
 
 
 }

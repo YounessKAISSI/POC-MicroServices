@@ -1,14 +1,17 @@
 package org.enset.app.beneficiaireservice;
 
+import org.enset.app.beneficiaireservice.config.BeneficiaireConfigParams;
 import org.enset.app.beneficiaireservice.entities.Beneficiaire;
 import org.enset.app.beneficiaireservice.enums.BeneficiareType;
 import org.enset.app.beneficiaireservice.repositories.BeneficiaireRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableConfigurationProperties(BeneficiaireConfigParams.class)
 public class BeneficiaireServiceApplication {
 
     public static void main(String[] args) {
